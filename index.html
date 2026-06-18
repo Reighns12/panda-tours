@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Panda Tours | Authentic Kenya Safari | Nakuru</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.128.0/build/three.module.js"}}</script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root {
+  --ink:      #03091A;
+  --navy:     #071B3B;
+  --navy-mid: #0D2B56;
+  --blue:     #0D47A1;
+  --blue-hi:  #1565C0;
+  --sky:      #4FC3F7;
+  --sky-hi:   #81D4FA;
+  --sky-glow: rgba(79,195,247,0.18);
+  --sky-rim:  rgba(79,195,247,0.45);
+  --text:     #C8E6F5;
+  --muted:    #6B9BB8;
+  --glass:    rgba(7,27,59,0.65);
+  --glass2:   rgba(13,43,86,0.55);
+  --r-lg: 28px;
+  --r-xl: 40px;
+  --ease: cubic-bezier(.22,.68,0,1.2);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── LOADER ── */
+#loader {
+  position: fixed; inset: 0; background: var(--ink); z-index: 8000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
+  transition: opacity .7s ease, visibility .7s;
+}
+#loader.done { opacity: 0; visibility: hidden; }
+.loader-logo { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: var(--sky); letter-spacing: 4px; }
+.loader-bar-wrap { width: 240px; height: 3px; background: var(--navy-mid); border-radius: 10px; overflow: hidden; }
+.loader-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue), var(--sky)); border-radius: 10px; animation: loaderFill 1.8s var(--ease) forwards; }
+@keyframes loaderFill { to { width: 100%; } }
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; width: 100%; z-index: 1000;
+  padding: 1.1rem 2rem;
+  background: rgba(3,9,26,0.0);
+  backdrop-filter: blur(0px);
+  border-bottom: 1px solid transparent;
+  transition: all .4s ease;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav.scrolled {
+  background: rgba(3,9,26,0.92);
+  backdrop-filter: blur(20px);
+  border-color: var(--sky-rim);
+  padding: .7rem 2rem;
+}
+.nav-logo { font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:800; color:#fff; text-decoration:none; display:flex; gap:.3rem; }
+.nav-logo span { color: var(--sky); }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { color:rgba(255,255,255,.75); text-decoration:none; font-size:.9rem; font-weight:500; letter-spacing:.03em; position:relative; transition:color .2s; }
+.nav-links a::after { content:''; position:absolute; bottom:-5px; left:0; width:0; height:2px; background:var(--sky); border-radius:2px; transition:width .25s var(--ease); }
+.nav-links a:hover { color:#fff; }
+.nav-links a:hover::after { width:100%; }
+.nav-cta { background:var(--sky); color:var(--ink); padding:.5rem 1.2rem; border-radius:50px; font-weight:600; font-size:.85rem; text-decoration:none; transition:all .2s; display:flex; align-items:center; gap:.4rem; white-space:nowrap; }
+.nav-cta:hover { background:#fff; transform:scale(1.04); }
+.hamburger { display:none; font-size:1.5rem; color:var(--sky); cursor:pointer; background:none; border:none; }
+.mobile-menu { display:none; position:fixed; inset:0; background:rgba(3,9,26,.97); z-index:900; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; }
+.mobile-menu.open { display:flex; animation:slideDown .35s ease; }
+@keyframes slideDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+.mobile-menu a { font-family:'Syne',sans-serif; font-size:2rem; font-weight:700; color:#fff; text-decoration:none; }
+.mobile-menu a:hover { color:var(--sky); }
+.mob-close { position:absolute; top:1.5rem; right:1.5rem; font-size:2rem; color:var(--sky); cursor:pointer; background:none; border:none; }
+
+/* Hero 3D */
+.hero {
+  position:relative; min-height:100vh; width:100%; overflow:hidden;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding-bottom: 0;
+}
+#threeCanvas { position:absolute; inset:0; width:100%; height:100%; z-index:1; }
+.hero-content {
+  position:relative; z-index:10; text-align:center; padding:8rem 2rem 4rem;
+  display:flex; flex-direction:column; align-items:center; gap:1.5rem;
+  width:100%; max-width:1300px;
+  background: radial-gradient(ellipse 80% 70% at 50% 40%, transparent 20%, rgba(3,9,26,.55) 100%);
+}
+.hero-eyebrow { font-size:.85rem; letter-spacing:.2em; text-transform:uppercase; color:var(--sky); display:flex; align-items:center; gap:.6rem; }
+.hero-eyebrow::before, .hero-eyebrow::after { content:''; flex:1; max-width:40px; height:1px; background:var(--sky); }
+.hero-h1 { font-family:'Syne',sans-serif; font-size:clamp(2.8rem,7vw,6.5rem); font-weight:800; line-height:1; color:#fff; }
+.hero-h1 em { font-style:normal; color:var(--sky); display:block; }
+.hero-sub { max-width:520px; font-size:1.05rem; color:var(--text); font-weight:300; line-height:1.7; }
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+.btn-primary { background:var(--sky); color:var(--ink); padding:.85rem 2rem; border-radius:50px; font-weight:700; font-size:1rem; text-decoration:none; display:inline-flex; align-items:center; gap:.6rem; transition:all .25s var(--ease); border:2px solid var(--sky); }
+.btn-primary:hover { background:transparent; color:var(--sky); transform:translateY(-3px); box-shadow:0 10px 30px rgba(79,195,247,.3); }
+.btn-ghost { background:transparent; color:#fff; padding:.85rem 2rem; border-radius:50px; font-weight:600; font-size:1rem; text-decoration:none; display:inline-flex; align-items:center; gap:.6rem; border:2px solid rgba(255,255,255,.3); transition:all .25s; }
+.btn-ghost:hover { border-color:var(--sky); color:var(--sky); }
+.hero-scroll { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); z-index:10; display:flex; flex-direction:column; align-items:center; gap:.4rem; }
+.scroll-line { width:1px; height:50px; background:linear-gradient(to bottom, transparent, var(--sky)); animation:scrollPulse 2s ease infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  background: linear-gradient(90deg, var(--ink), var(--navy-mid), var(--ink));
+  border-top: 1px solid var(--sky-rim); border-bottom: 1px solid var(--sky-rim);
+  padding: 1.5rem 2rem;
+  display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-num { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--sky); }
+.stat-label { font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+
+/* ── SECTIONS ── */
+.section { padding: 6rem 2rem; }
+.section-inner { max-width: 1400px; margin: 0 auto; }
+.label-tag { font-size:.75rem; letter-spacing:.18em; text-transform:uppercase; color:var(--sky); font-weight:600; margin-bottom:.6rem; display:flex; align-items:center; gap:.5rem; }
+.label-tag::before { content:''; width:20px; height:2px; background:var(--sky); border-radius:2px; }
+.section-h2 { font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:800; color:#fff; line-height:1.1; }
+.section-h2 span { color:var(--sky); }
+
+/* ── AUTO GALLERY ── */
+.gallery-section { background:var(--ink); overflow:hidden; padding:4rem 0; }
+.gallery-header { max-width:1400px; margin:0 auto 2rem; padding:0 2rem; display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.track-wrap { overflow:hidden; position:relative; }
+.track-wrap::before, .track-wrap::after { content:''; position:absolute; top:0; bottom:0; width:120px; z-index:10; pointer-events:none; }
+.track-wrap::before { left:0; background:linear-gradient(to right, var(--ink), transparent); }
+.track-wrap::after { right:0; background:linear-gradient(to left, var(--ink), transparent); }
+.slider-track { display:flex; gap:1.2rem; width:max-content; animation:autoScroll 500s linear infinite; }
+.slider-track:hover { animation-play-state:paused; }
+@keyframes autoScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.slide-card {
+  width:320px; height:230px; flex-shrink:0; border-radius:20px; overflow:hidden; position:relative;
+  border:1px solid var(--sky-rim); cursor:pointer;
+  transition: transform .3s var(--ease), box-shadow .3s;
+}
+.slide-card:hover { transform:scale(1.03) translateY(-4px); box-shadow:0 20px 40px rgba(0,0,0,.5),0 0 0 1px var(--sky); }
+.slide-card img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+.slide-card:hover img { transform:scale(1.07); }
+.slide-label { position:absolute; bottom:0; left:0; right:0; padding:.8rem 1rem; background:linear-gradient(to top, rgba(3,9,26,.9), transparent); font-size:.8rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--sky); }
+.pause-toggle { background:var(--navy-mid); border:1px solid var(--sky-rim); color:var(--sky); padding:.45rem 1.1rem; border-radius:30px; font-size:.85rem; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:.4rem; transition:all .2s; }
+.pause-toggle:hover { background:var(--sky); color:var(--ink); }
+
+/* ── ABOUT ── */
+.about-section { background:var(--navy); }
+.about-grid { display:grid; grid-template-columns:1fr 1.3fr; gap:4rem; align-items:center; }
+.about-img-stack { position:relative; height:480px; }
+.about-img-stack .img-main { position:absolute; width:75%; height:100%; object-fit:cover; border-radius:var(--r-xl); border:2px solid var(--sky-rim); }
+.about-img-stack .img-accent { position:absolute; width:50%; height:55%; object-fit:cover; border-radius:var(--r-lg); border:2px solid var(--sky); right:-1rem; bottom:0; box-shadow:0 20px 40px rgba(0,0,0,.5); }
+.about-badge { background:var(--sky); color:var(--ink); font-family:'Syne',sans-serif; font-weight:800; font-size:.9rem; padding:.5rem 1.2rem; border-radius:30px; display:inline-flex; gap:.4rem; margin-bottom:1.2rem; }
+.about-text { font-size:1.05rem; font-weight:300; line-height:1.8; color:var(--text); margin:1rem 0 2rem; }
+.about-features { display:flex; flex-direction:column; gap:.8rem; }
+.feat-row { display:flex; align-items:center; gap:.8rem; font-size:.9rem; }
+.feat-icon { width:36px; height:36px; border-radius:50%; background:var(--sky-glow); border:1px solid var(--sky-rim); display:flex; align-items:center; justify-content:center; color:var(--sky); font-size:.8rem; flex-shrink:0; }
+
+/* ── DESTINATIONS ── */
+.destinations-section { background:var(--ink); }
+.dest-filters { display:flex; gap:.7rem; flex-wrap:wrap; margin-top:2rem; }
+.dest-filter { background:transparent; border:1px solid var(--sky-rim); color:var(--text); font-size:.85rem; font-weight:600; padding:.55rem 1.3rem; border-radius:30px; cursor:pointer; transition:all .25s var(--ease); letter-spacing:.02em; }
+.dest-filter:hover { border-color:var(--sky); color:var(--sky); }
+.dest-filter.active { background:var(--sky); color:var(--ink); border-color:var(--sky); }
+.dest-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.8rem; margin-top:2.5rem; }
+.dest-card {
+  background:var(--glass); border:1px solid var(--sky-rim); border-radius:var(--r-lg); overflow:hidden;
+  cursor:pointer; transition:all .35s var(--ease);
+  position:relative;
+}
+.dest-card:hover { transform:translateY(-10px); border-color:var(--sky); box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 1px var(--sky); }
+.dest-img { height:240px; overflow:hidden; position:relative; }
+.dest-img img { width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+.dest-card:hover .dest-img img { transform:scale(1.08); }
+.dest-img-count { position:absolute; bottom:.7rem; right:.7rem; background:rgba(3,9,26,.85); border:1px solid var(--sky-rim); color:var(--sky); font-size:.75rem; font-weight:600; padding:.25rem .7rem; border-radius:20px; backdrop-filter:blur(8px); display:flex; align-items:center; gap:.3rem; }
+.dest-body { padding:1.4rem 1.6rem 1.8rem; }
+.dest-region { font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--sky); font-weight:600; margin-bottom:.5rem; }
+.dest-name { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:.4rem; }
+.dest-desc { font-size:.9rem; color:var(--muted); line-height:1.6; margin-bottom:1rem; }
+.dest-tags { display:flex; flex-wrap:wrap; gap:.4rem; }
+.dest-tag { background:rgba(79,195,247,.1); border:1px solid var(--sky-rim); color:var(--sky); font-size:.7rem; padding:.2rem .7rem; border-radius:20px; }
+.dest-arrow { position:absolute; bottom:1.5rem; right:1.6rem; width:36px; height:36px; border-radius:50%; background:var(--sky-glow); border:1px solid var(--sky-rim); display:flex; align-items:center; justify-content:center; color:var(--sky); font-size:.9rem; transition:all .25s; }
+.dest-card:hover .dest-arrow { background:var(--sky); color:var(--ink); }
+
+/* ── EXPERIENCES / GEOTHERMAL & ACTIVITIES ── */
+.experiences-section { background:var(--navy); position:relative; overflow:hidden; }
+.exp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.6rem; margin-top:3rem; }
+.exp-card { background:var(--glass2); border:1px solid var(--sky-rim); border-radius:var(--r-lg); padding:1.8rem; transition:all .25s var(--ease); }
+.exp-card:hover { border-color:var(--sky); transform:translateY(-6px); }
+.exp-icon { width:48px; height:48px; border-radius:14px; background:var(--sky-glow); border:1px solid var(--sky-rim); display:flex; align-items:center; justify-content:center; color:var(--sky); font-size:1.3rem; margin-bottom:1rem; }
+.exp-title { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:.5rem; }
+.exp-desc { font-size:.9rem; color:var(--muted); line-height:1.65; }
+
+.activities-wrap { margin-top:3rem; display:flex; flex-wrap:wrap; gap:.7rem; }
+.activity-chip { background:rgba(79,195,247,.08); border:1px solid var(--sky-rim); color:var(--text); font-size:.85rem; font-weight:500; padding:.6rem 1.2rem; border-radius:30px; display:inline-flex; align-items:center; gap:.5rem; transition:all .2s; }
+.activity-chip:hover { border-color:var(--sky); color:var(--sky); background:var(--sky-glow); }
+.activity-chip i { color:var(--sky); font-size:.8rem; }
+
+/* ── TESTIMONIALS ── */
+.testi-section { background:var(--navy); position:relative; overflow:hidden; }
+.testi-section::before { content:''; position:absolute; top:-200px; right:-200px; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle, rgba(79,195,247,.06) 0%, transparent 70%); }
+.testi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:3rem; }
+.testi-card { background:var(--glass2); border:1px solid var(--sky-rim); border-radius:var(--r-lg); padding:1.8rem; transition:all .25s; position:relative; }
+.testi-card:hover { border-color:var(--sky); transform:translateY(-4px); }
+.testi-stars { color:var(--sky); font-size:.85rem; margin-bottom:.8rem; display:flex; gap:.1rem; }
+.testi-text { font-size:.95rem; font-style:italic; color:var(--text); line-height:1.7; margin-bottom:1.2rem; }
+.testi-author { display:flex; align-items:center; gap:.8rem; }
+.testi-avatar { width:40px; height:40px; border-radius:50%; background:var(--blue); border:2px solid var(--sky-rim); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; color:var(--sky); font-size:.9rem; }
+.testi-name { font-weight:600; font-size:.9rem; color:#fff; }
+.testi-country { font-size:.78rem; color:var(--muted); }
+.testi-quote { position:absolute; top:1.2rem; right:1.4rem; font-size:3rem; color:rgba(79,195,247,.12); font-family:serif; line-height:1; }
+
+/* ── CONTACT ── */
+.contact-section { background:var(--ink); }
+.contact-box { background:var(--glass2); border:1px solid var(--sky-rim); border-radius:var(--r-xl); padding:4rem; text-align:center; position:relative; overflow:hidden; }
+.contact-box::after { content:''; position:absolute; inset:-1px; border-radius:var(--r-xl); background:linear-gradient(135deg, var(--sky-rim), transparent 50%, var(--sky-rim)); z-index:-1; }
+.contact-h2 { font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3.5rem); font-weight:800; color:#fff; margin-bottom:.8rem; }
+.contact-sub { color:var(--muted); font-size:1rem; margin-bottom:2.5rem; }
+.contact-btns { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.contact-btn { padding:.9rem 1.8rem; border-radius:50px; font-weight:600; font-size:.95rem; text-decoration:none; display:inline-flex; align-items:center; gap:.6rem; transition:all .25s var(--ease); }
+.c-wa { background:#25D366; color:#fff; }
+.c-wa:hover { transform:scale(1.05); box-shadow:0 10px 30px rgba(37,211,102,.35); }
+.c-call { background:var(--blue); color:#fff; border:1px solid var(--sky-rim); }
+.c-call:hover { background:var(--sky); color:var(--ink); transform:scale(1.05); }
+.c-email { background:transparent; color:var(--sky); border:1px solid var(--sky-rim); }
+.c-email:hover { background:var(--sky-glow); transform:scale(1.05); }
+
+/* ── FOOTER ── */
+footer { background:var(--ink); border-top:1px solid var(--sky-rim); padding:2.5rem 2rem; text-align:center; }
+footer p { color:var(--muted); font-size:.85rem; }
+footer strong { color:var(--sky); }
+
+/* ── FLOATING BTNS ── */
+.floaters { position:fixed; bottom:28px; right:28px; z-index:500; display:flex; flex-direction:column; gap:12px; }
+.floater { width:54px; height:54px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.4rem; text-decoration:none; border:2px solid var(--sky-rim); transition:all .25s var(--ease); box-shadow:0 8px 20px rgba(0,0,0,.4); }
+.floater-wa { background:#25D366; color:#fff; border-color:#25D366; }
+.floater-wa:hover { transform:scale(1.15); box-shadow:0 0 20px #25D36680; }
+.floater-call { background:var(--blue); color:#fff; }
+.floater-call:hover { transform:scale(1.15); background:var(--sky); color:var(--ink); box-shadow:0 0 20px var(--sky-rim); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:2000; background:rgba(3,9,26,.96);
+  backdrop-filter:blur(20px); display:flex; align-items:center; justify-content:center;
+  opacity:0; visibility:hidden; transition:all .3s;
+  padding:1rem;
+}
+.modal-overlay.active { opacity:1; visibility:visible; }
+.modal {
+  background:rgba(7,27,59,.9); border:1px solid var(--sky); border-radius:var(--r-xl);
+  max-width:950px; width:100%; max-height:90vh; overflow-y:auto; position:relative;
+  animation:modalIn .35s var(--ease);
+}
+@keyframes modalIn { from{transform:scale(.9) translateY(30px);opacity:0} to{transform:none;opacity:1} }
+.modal-close { position:sticky; top:0; right:0; display:flex; justify-content:flex-end; padding:1rem 1.2rem .5rem; background:rgba(7,27,59,.8); backdrop-filter:blur(10px); z-index:10; }
+.modal-close-btn { width:38px; height:38px; border-radius:50%; background:var(--navy-mid); border:1px solid var(--sky-rim); color:var(--sky); font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.modal-close-btn:hover { background:var(--sky); color:var(--ink); }
+.modal-body { padding:0 2rem 2rem; }
+.modal-region { font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:var(--sky); font-weight:600; margin-bottom:.4rem; }
+.modal-title { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:#fff; margin-bottom:1rem; }
+.modal-gallery { display:flex; gap:1rem; overflow-x:auto; margin:1.2rem 0; padding-bottom:.5rem; scroll-snap-type:x mandatory; }
+.modal-gallery::-webkit-scrollbar { height:4px; }
+.modal-gallery::-webkit-scrollbar-track { background:var(--navy-mid); border-radius:4px; }
+.modal-gallery::-webkit-scrollbar-thumb { background:var(--sky); border-radius:4px; }
+.modal-img { width:280px; height:190px; object-fit:cover; border-radius:16px; border:1px solid var(--sky-rim); flex-shrink:0; scroll-snap-align:start; cursor:pointer; transition:all .2s; }
+.modal-img:hover { border-color:var(--sky); transform:scale(1.02); }
+.modal-desc { font-size:1rem; line-height:1.8; color:var(--text); margin-bottom:1.2rem; }
+.modal-activities { background:rgba(79,195,247,.07); border:1px solid var(--sky-rim); border-radius:16px; padding:1rem 1.2rem; display:flex; align-items:flex-start; gap:.7rem; font-size:.9rem; color:var(--text); margin-bottom:1.5rem; }
+.modal-wa { background:var(--sky); color:var(--ink); padding:.8rem 1.8rem; border-radius:50px; font-weight:700; display:inline-flex; align-items:center; gap:.6rem; text-decoration:none; transition:all .2s; }
+.modal-wa:hover { background:#fff; transform:scale(1.04); }
+
+/* lightbox */
+.lightbox { position:fixed; inset:0; z-index:3000; background:rgba(0,0,0,.95); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:.3s; }
+.lightbox.active { opacity:1; visibility:visible; }
+.lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; border-radius:12px; }
+.lightbox-close { position:absolute; top:1.5rem; right:1.5rem; width:44px; height:44px; border-radius:50%; background:var(--navy-mid); border:1px solid var(--sky-rim); color:var(--sky); font-size:1.3rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal { opacity:0; transform:translateY(40px); transition:opacity .7s ease, transform .7s var(--ease); }
+.reveal.visible { opacity:1; transform:none; }
+.reveal-delay-1 { transition-delay:.1s; }
+.reveal-delay-2 { transition-delay:.2s; }
+.reveal-delay-3 { transition-delay:.3s; }
+
+/* ── HERO FEATURE STRIP ── */
+.hero-features {
+  position: relative; z-index: 10;
+  width: 100%; padding: 0 2rem;
+  margin-top: -2px;
+  display: flex; justify-content: center;
+}
+.hero-features-inner {
+  max-width: 1200px; width: 100%;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+  transform: translateY(-50%);
+}
+.hf-card {
+  background: rgba(7,27,59,0.72);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(79,195,247,0.35);
+  border-radius: 24px;
+  padding: 1.6rem 1.4rem;
+  display: flex; flex-direction: column; align-items: flex-start; gap: .7rem;
+  position: relative; overflow: hidden;
+  transition: transform .35s var(--ease), box-shadow .35s, border-color .3s;
+  cursor: default;
+  will-change: transform;
+}
+.hf-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(79,195,247,.08) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+}
+.hf-card:hover::before { opacity: 1; }
+.hf-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 48px rgba(0,0,0,.55), 0 0 0 1px var(--sky);
+  border-color: var(--sky);
+}
+.hf-icon-wrap {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--blue), #1976D2);
+  border: 1px solid rgba(79,195,247,.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; color: var(--sky);
+  box-shadow: 0 6px 20px rgba(13,71,161,.5);
+  transition: transform .3s var(--ease), box-shadow .3s;
+}
+.hf-card:hover .hf-icon-wrap {
+  transform: rotate(-8deg) scale(1.12);
+  box-shadow: 0 8px 24px rgba(79,195,247,.35);
+}
+.hf-title {
+  font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: #fff;
+  line-height: 1.2;
+}
+.hf-desc { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+.hf-pill {
+  background: rgba(79,195,247,.12); border: 1px solid rgba(79,195,247,.3);
+  color: var(--sky); font-size: .7rem; font-weight: 600; letter-spacing: .06em;
+  padding: .2rem .75rem; border-radius: 20px; text-transform: uppercase;
+  margin-top: auto;
+}
+/* Animated glow dot */
+.hf-card::after {
+  content: '';
+  position: absolute; top: 1rem; right: 1rem;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--sky);
+  box-shadow: 0 0 0 0 rgba(79,195,247,.6);
+  animation: hfPulse 2.5s ease infinite;
+}
+@keyframes hfPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(79,195,247,.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(79,195,247,0); }
+  100% { box-shadow: 0 0 0 0 rgba(79,195,247,0); }
+}
+/* Parallax layer inside hero */
+.hero-parallax-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(13,71,161,.25) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(79,195,247,.1) 0%, transparent 70%);
+  will-change: transform;
+}
+/* floating safari icons around hero */
+.hero-float {
+  position: absolute; z-index: 5; pointer-events: none;
+  color: rgba(79,195,247,.18); font-size: 2.2rem;
+  animation: floatDrift 8s ease-in-out infinite;
+  will-change: transform;
+}
+.hf1 { top: 20%; left: 4%;  animation-delay: 0s;   font-size:1.8rem; }
+.hf2 { top: 60%; left: 6%;  animation-delay: 1.2s; font-size:2.6rem; }
+.hf3 { top: 15%; right: 5%; animation-delay: 0.6s; font-size:2rem; }
+.hf4 { top: 55%; right: 4%; animation-delay: 1.8s; font-size:1.6rem; }
+.hf5 { top: 38%; left: 2%;  animation-delay: 2.4s; font-size:1.4rem; }
+.hf6 { top: 80%; right: 7%; animation-delay: 3s;   font-size:1.9rem; }
+@keyframes floatDrift {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  33%      { transform: translateY(-18px) rotate(4deg); }
+  66%      { transform: translateY(10px) rotate(-3deg); }
+}
+/* Kenya map watermark */
+.hero-watermark {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  z-index: 4; pointer-events: none; opacity: .06;
+  font-size: 18rem; line-height: 1;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  color: var(--sky); letter-spacing: -.04em;
+  user-select: none;
+}
+/* typed text animation */
+.hero-typed { display: inline-block; border-right: 3px solid var(--sky); padding-right: 4px; animation: typedBlink .7s step-end infinite; }
+@keyframes typedBlink { 50% { border-color: transparent; } }
+/* scroll depth parallax utility */
+.parallax-drift { will-change: transform; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .nav-links, .nav-cta.desktop-only { display:none; }
+  .hamburger { display:block; }
+  .about-grid { grid-template-columns:1fr; }
+  .about-img-stack { height:320px; }
+  .about-img-stack .img-accent { display:none; }
+  .dest-grid { grid-template-columns:1fr; }
+  .stats-bar { gap:2rem; }
+  .contact-box { padding:2.5rem 1.5rem; }
+  .hero-features-inner { grid-template-columns: repeat(2, 1fr); transform: translateY(-30px); }
+  .hf1,.hf2,.hf3,.hf4,.hf5,.hf6 { display:none; }
+  .hero-watermark { font-size:8rem; }
+}
+@media(max-width:480px) {
+  .hero-h1 { font-size:2.4rem; }
+  .slide-card { width:240px; height:180px; }
+  .modal-img { width:230px; height:160px; }
+  .hero-features-inner { grid-template-columns:1fr 1fr; gap:.7rem; }
+  .hf-card { padding:1rem; }
+  .hf-title { font-size:.85rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">PANDA</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <p style="color:var(--muted);font-size:.85rem;letter-spacing:.1em">Loading Kenya's finest safari...</p>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mob-close" id="mobClose"><i class="fas fa-times"></i></button>
+  <a href="#home" class="mob-link">Home</a>
+  <a href="#gallery" class="mob-link">Gallery</a>
+  <a href="#about" class="mob-link">About</a>
+  <a href="#destinations" class="mob-link">Destinations</a>
+  <a href="#experiences" class="mob-link">Experiences</a>
+  <a href="#testimonials" class="mob-link">Stories</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#home" class="nav-logo">PANDA<span> TOURS</span></a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#testimonials">Stories</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/254794746802" class="nav-cta desktop-only" target="_blank"><i class="fab fa-whatsapp"></i> Book Now</a>
+  <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <canvas id="threeCanvas"></canvas>
+
+  <!-- Parallax ambient radial layer -->
+  <div class="hero-parallax-bg" id="heroBg"></div>
+
+  <!-- Floating safari icons -->
+  <div class="hero-float hf1"><i class="fas fa-paw"></i></div>
+  <div class="hero-float hf2"><i class="fas fa-binoculars"></i></div>
+  <div class="hero-float hf3"><i class="fas fa-feather-alt"></i></div>
+  <div class="hero-float hf4"><i class="fas fa-camera"></i></div>
+  <div class="hero-float hf5"><i class="fas fa-leaf"></i></div>
+  <div class="hero-float hf6"><i class="fas fa-globe-africa"></i></div>
+
+  <!-- Huge background watermark text -->
+  <div class="hero-watermark parallax-drift" id="heroWatermark">KENYA</div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Nakuru, Kenya · Est. 2018</div>
+    <h1 class="hero-h1">WILD KENYA.<br><em>YOUR STORY.</em></h1>
+    <p class="hero-sub">Private guided safaris through flamingo lakes, volcanic craters &amp; untouched savannahs — crafted by a local soul who knows every trail.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/254794746802" target="_blank" class="btn-primary"><i class="fab fa-whatsapp"></i> Plan Your Adventure</a>
+      <a href="#destinations" class="btn-ghost"><i class="fas fa-map-marker-alt"></i> Explore Destinations</a>
+    </div>
+
+    <!-- ── HERO FEATURE CARDS ── directly below buttons inside hero -->
+    <div class="hero-features" style="position:relative;z-index:10;width:100%;padding:0;margin-top:3rem;">
+      <div class="hero-features-inner">
+
+        <!-- Card 1 -->
+        <div class="hf-card">
+          <div class="hf-icon-wrap"><i class="fas fa-shield-alt"></i></div>
+          <div class="hf-title">100% Private Tours</div>
+          <div class="hf-desc">Just you and your group — no strangers, no compromises. Every moment is yours.</div>
+          <div class="hf-pill">Exclusive</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="hf-card">
+          <div class="hf-icon-wrap"><i class="fas fa-route"></i></div>
+          <div class="hf-title">Custom Itineraries</div>
+          <div class="hf-desc">From sunrise crater hikes to midnight lake cruises — we build your perfect day.</div>
+          <div class="hf-pill">Tailored</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="hf-card">
+          <div class="hf-icon-wrap"><i class="fab fa-whatsapp"></i></div>
+          <div class="hf-title">Direct Booking</div>
+          <div class="hf-desc">No middlemen, no hidden fees. WhatsApp Panda directly for real, honest pricing.</div>
+          <div class="hf-pill">Transparent</div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="hf-card">
+          <div class="hf-icon-wrap"><i class="fas fa-binoculars"></i></div>
+          <div class="hf-title">Local Expert Guide</div>
+          <div class="hf-desc">Born in Nakuru, Panda knows every trail, animal pattern, and hidden viewpoint.</div>
+          <div class="hf-pill">Authentic</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll"><div class="scroll-line"></div></div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item reveal"><div class="stat-num" data-count="2000">0</div><div class="stat-label">Guests Guided</div></div>
+  <div class="stat-item reveal reveal-delay-1"><div class="stat-num" data-count="22">0</div><div class="stat-label">Destinations</div></div>
+  <div class="stat-item reveal reveal-delay-2"><div class="stat-num" data-count="8">0</div><div class="stat-label">Years Experience</div></div>
+  <div class="stat-item reveal reveal-delay-3"><div class="stat-num" data-count="100">0</div><div class="stat-label">% Private Tours</div></div>
+</div>
+
+<!-- AUTO GALLERY -->
+<section id="gallery" class="gallery-section">
+  <div class="gallery-header">
+    <div>
+      <div class="label-tag">Live Gallery</div>
+      <div class="section-h2">Kenya Through <span>Our Lens</span></div>
+    </div>
+    <button class="pause-toggle" id="pauseBtn"><i class="fas fa-pause"></i> Pause</button>
+  </div>
+  <div class="track-wrap">
+    <div class="slider-track" id="sliderTrack"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section about-section">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-stack reveal">
+        <img class="img-main" src="https://images.pexels.com/photos/631317/pexels-photo-631317.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Panda guide safari Kenya">
+        <img class="img-accent" src="photo100.jpg" alt="Kenya wildlife">
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="label-tag">Our Story</div>
+        <h2 class="section-h2" style="margin-bottom:1rem;">Born from the <span>Rift Valley.</span> Guided by heart.</h2>
+        <div class="about-badge"><i class="fas fa-map-marker-alt"></i> Nakuru Native</div>
+        <p class="about-text">Panda grew up watching flamingos paint Lake Nakuru pink at dawn. Today, those childhood mornings have become Kenya's most personal safari experience. Every itinerary is hand-crafted — no generic tours, no rushed schedules. Just you, the wildlife, and a guide who genuinely loves this land.</p>
+        <p class="about-text" style="margin-top:0;"><strong style="color:#fff;">No online payments. Book directly via WhatsApp or call.</strong> Transparent pricing, zero middleman.</p>
+        <div class="about-features">
+          <div class="feat-row"><div class="feat-icon"><i class="fas fa-shield-alt"></i></div><span>Private, personalised itineraries — never group tours</span></div>
+          <div class="feat-row"><div class="feat-icon"><i class="fas fa-leaf"></i></div><span>Deep conservation ethics, low-impact footprint</span></div>
+          <div class="feat-row"><div class="feat-icon"><i class="fas fa-clock"></i></div><span>Sunrise to sunset — flexible, unhurried pacing</span></div>
+          <div class="feat-row"><div class="feat-icon"><i class="fas fa-comments"></i></div><span>Direct booking — WhatsApp or call, real prices</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section id="destinations" class="section destinations-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label-tag">Where We Go</div>
+      <h2 class="section-h2">Immersive <span>Destinations</span></h2>
+      <p style="color:var(--muted);margin-top:.6rem;max-width:520px;">Click any destination to explore all photos and full details. Each card opens a rich gallery with booking link.</p>
+    </div>
+    <div class="dest-filters" id="destFilters">
+      <button class="dest-filter active" data-cat="all">All</button>
+      <button class="dest-filter" data-cat="wildlife">Wildlife &amp; Safari</button>
+      <button class="dest-filter" data-cat="lakes">Lakes, Waterfalls &amp; Forests</button>
+      <button class="dest-filter" data-cat="mountains">Mountains, Craters &amp; Adventure</button>
+      <button class="dest-filter" data-cat="heritage">Historical &amp; Cultural Heritage</button>
+    </div>
+    <div class="dest-grid" id="destGrid"></div>
+  </div>
+</section>
+
+<!-- GEOTHERMAL & GEOLOGICAL ATTRACTIONS + ACTIVITIES -->
+<section id="experiences" class="section experiences-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="label-tag">Beneath The Surface</div>
+      <h2 class="section-h2">Geothermal &amp; <span>Geological Wonders</span></h2>
+      <p style="color:var(--muted);margin-top:.6rem;max-width:600px;">The Rift Valley around Nakuru and Naivasha sits on some of the most active geothermal ground in East Africa — here's where to feel it for yourself.</p>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card reveal">
+        <div class="exp-icon"><i class="fas fa-hot-tub"></i></div>
+        <div class="exp-title">Olkaria Geothermal Spa</div>
+        <div class="exp-desc">Soak in naturally heated pools fed by the same underground forces that power the region's geothermal plants — a relaxing way to unwind after a day on the trails.</div>
+      </div>
+      <div class="exp-card reveal reveal-delay-1">
+        <div class="exp-icon"><i class="fas fa-fire"></i></div>
+        <div class="exp-title">Olkaria Geothermal Fields</div>
+        <div class="exp-desc">Vast open fields where steam rises straight from the earth, surrounded by power infrastructure and wild landscapes — a striking look at Kenya's renewable energy story.</div>
+      </div>
+      <div class="exp-card reveal reveal-delay-2">
+        <div class="exp-icon"><i class="fas fa-wind"></i></div>
+        <div class="exp-title">Steam Vents of Hell's Gate</div>
+        <div class="exp-desc">Scattered along the gorge walls, natural steam vents hiss from cracks in the rock, a dramatic reminder of the volcanic activity that shaped this entire landscape.</div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-icon"><i class="fas fa-mountain"></i></div>
+        <div class="exp-title">Mount Longonot Volcano</div>
+        <div class="exp-desc">An extinct stratovolcano whose crater rim trail offers a front-row seat to the forces that built — and still shape — the floor of the Great Rift Valley.</div>
+      </div>
+      <div class="exp-card reveal reveal-delay-1">
+        <div class="exp-icon"><i class="fas fa-volcano"></i></div>
+        <div class="exp-title">Menengai Volcano</div>
+        <div class="exp-desc">One of the world's largest calderas, Menengai is both a geological giant and a source of geothermal energy, with sweeping views into its vast, mist-filled crater.</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:4rem;">
+      <div class="label-tag">What You Can Do</div>
+      <h2 class="section-h2">Activities With <span>Panda</span></h2>
+      <p style="color:var(--muted);margin-top:.6rem;max-width:600px;">From sunrise game drives to sunset boat cruises, every experience below can be woven into your private itinerary.</p>
+    </div>
+    <div class="activities-wrap reveal">
+      <span class="activity-chip"><i class="fas fa-binoculars"></i>Wildlife Safaris</span>
+      <span class="activity-chip"><i class="fas fa-feather-alt"></i>Bird Watching</span>
+      <span class="activity-chip"><i class="fas fa-walking"></i>Nature Walks</span>
+      <span class="activity-chip"><i class="fas fa-hiking"></i>Hiking Expeditions</span>
+      <span class="activity-chip"><i class="fas fa-mountain"></i>Mountain Climbing</span>
+      <span class="activity-chip"><i class="fas fa-route"></i>Geological Tours</span>
+      <span class="activity-chip"><i class="fas fa-landmark"></i>Historical Site Tours</span>
+      <span class="activity-chip"><i class="fas fa-theater-masks"></i>Cultural Tours</span>
+      <span class="activity-chip"><i class="fas fa-camera"></i>Photography Tours</span>
+      <span class="activity-chip"><i class="fas fa-graduation-cap"></i>Educational Tours</span>
+      <span class="activity-chip"><i class="fas fa-ship"></i>Boat Excursions</span>
+      <span class="activity-chip"><i class="fas fa-campground"></i>Camping Adventures</span>
+      <span class="activity-chip"><i class="fas fa-users"></i>Family Nature Tours</span>
+      <span class="activity-chip"><i class="fas fa-user-friends"></i>Group Excursions</span>
+      <span class="activity-chip"><i class="fas fa-sun"></i>Sunrise &amp; Sunset Experiences</span>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="section testi-section">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center; margin-bottom:1rem;">
+      <div class="label-tag" style="justify-content:center;">Real Stories</div>
+      <h2 class="section-h2">Travellers Who <span>Fell in Love</span></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="testi-text">"Panda showed us the real Kenya — not the tourist version. Intimate wildlife encounters at Lake Nakuru that I'll tell my grandchildren about."</p>
+        <div class="testi-author"><div class="testi-avatar">LM</div><div><div class="testi-name">Lisa M.</div><div class="testi-country">Melbourne, Australia</div></div></div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="testi-text">"The Menengai Crater hike at sunrise was beyond anything I imagined. Panda knows every trail, every story, every bird call. Phenomenal guide."</p>
+        <div class="testi-author"><div class="testi-avatar">DK</div><div><div class="testi-name">David K.</div><div class="testi-country">London, UK</div></div></div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="testi-text">"Walking among giraffes at Crescent Island felt like a dream. Professional, caring, full of stories. Best safari decision I've ever made."</p>
+        <div class="testi-author"><div class="testi-avatar">AW</div><div><div class="testi-name">Amina W.</div><div class="testi-country">Nairobi, Kenya</div></div></div>
+      </div>
+      <div class="testi-card reveal reveal-delay-3">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="testi-text">"Hell's Gate cycling with zebras around us — who does that?! Panda made the impossible feel completely natural. An absolute legend."</p>
+        <div class="testi-author"><div class="testi-avatar">JB</div><div><div class="testi-name">Jean-Baptiste R.</div><div class="testi-country">Paris, France</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="testi-text">"The sunset boat cruise on Lake Naivasha with hippos just meters away... no words. Worth every penny. Booking again next year."</p>
+        <div class="testi-author"><div class="testi-avatar">SN</div><div><div class="testi-name">Sara N.</div><div class="testi-country">Toronto, Canada</div></div></div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-quote">"</div>
+        <div class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="testi-text">"Booked via WhatsApp, arrived to perfection. No hidden fees, no surprises — just pure, authentic Kenyan safari experience. Hakuna matata indeed."</p>
+        <div class="testi-author"><div class="testi-avatar">TH</div><div><div class="testi-name">Thomas H.</div><div class="testi-country">Berlin, Germany</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section contact-section">
+  <div class="section-inner">
+    <div class="contact-box reveal">
+      <div class="label-tag" style="justify-content:center;">Start Your Journey</div>
+      <h2 class="contact-h2">Ready to Meet<br><span style="color:var(--sky)">Wild Kenya?</span></h2>
+      <p class="contact-sub">Direct booking only — no middlemen, no online payment. Real prices, real conversations.</p>
+      <div class="contact-btns">
+        <a href="https://wa.me/254794746802" class="contact-btn c-wa" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Panda</a>
+        <a href="tel:+254794746802" class="contact-btn c-call"><i class="fas fa-phone-alt"></i> Call Now</a>
+        <a href="mailto:ireriishmael072@gmail.com" class="contact-btn c-email"><i class="far fa-envelope"></i> Send Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <strong>Panda Tours</strong> · Nakuru, Kenya &nbsp;·&nbsp; No online payments &nbsp;·&nbsp; Direct WhatsApp &amp; Call bookings only</p>
+  <p style="margin-top:.5rem; font-size:.78rem;">Built with ❤️ for authentic Kenyan safari experiences</p>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="floaters">
+  <a href="https://instagram.com/just_reighns" target="_blank" class="floater" style="background:#E1306C;color:#fff;border-color:#E1306C;"><i class="fab fa-instagram"></i></a>
+  <a href="https://wa.me/254794746802" class="floater floater-wa" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  <a href="tel:+254794746802" class="floater floater-call" title="Call"><i class="fas fa-phone-alt"></i></a>
+</div>
+
+<!-- DESTINATION MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-close"><button class="modal-close-btn" id="modalCloseBtn"><i class="fas fa-times"></i></button></div>
+    <div class="modal-body">
+      <div class="modal-region" id="mRegion"></div>
+      <div class="modal-title" id="mTitle"></div>
+      <div class="modal-gallery" id="mGallery"></div>
+      <div class="modal-desc" id="mDesc"></div>
+      <div class="modal-activities" id="mActivities"><i class="fas fa-route" style="color:var(--sky);margin-top:.1rem;flex-shrink:0;"></i><div></div></div>
+      <a href="#" class="modal-wa" id="mWA" target="_blank"><i class="fab fa-whatsapp"></i> Enquire about this tour</a>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose"><i class="fas fa-times"></i></button>
+  <img src="" alt="" id="lbImg">
+</div>
+
+<!-- THREE.JS GLOBE -->
+<script type="module">
+import * as THREE from 'three';
+const canvas = document.getElementById('threeCanvas');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x03091A);
+const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, 0.1, 1000);
+camera.position.z = 3.8;
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:false});
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+// Earth Globe
+const geo = new THREE.SphereGeometry(1.3, 64, 64);
+const loader = new THREE.TextureLoader();
+const mat = new THREE.MeshStandardMaterial({
+  map: loader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'),
+  roughness: 0.7, metalness: 0.05
+});
+const globe = new THREE.Mesh(geo, mat);
+scene.add(globe);
+
+// Glow ring
+const ringGeo = new THREE.TorusGeometry(1.55, 0.012, 8, 120);
+const ringMat = new THREE.MeshBasicMaterial({color:0x4FC3F7, transparent:true, opacity:.35});
+const ring = new THREE.Mesh(ringGeo, ringMat);
+ring.rotation.x = Math.PI * 0.5;
+scene.add(ring);
+
+// Orbit dots (Kenya marker)
+const dotGeo = new THREE.SphereGeometry(0.04, 8, 8);
+const dotMat = new THREE.MeshBasicMaterial({color:0x4FC3F7});
+const dot = new THREE.Mesh(dotGeo, dotMat);
+dot.position.set(0.55, -0.1, 1.22);
+scene.add(dot);
+
+// Stars
+const starGeo = new THREE.BufferGeometry();
+const sPos = [];
+for(let i=0;i<3000;i++){sPos.push((Math.random()-.5)*600,(Math.random()-.5)*400,(Math.random()-.5)*200-100);}
+starGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(sPos),3));
+const starMat = new THREE.PointsMaterial({color:0x88AAFF, size:.25});
+scene.add(new THREE.Points(starGeo, starMat));
+
+// Lights
+const ambient = new THREE.AmbientLight(0x1a2a3a, 1.5);
+scene.add(ambient);
+const sun = new THREE.DirectionalLight(0xffffff, 1.3);
+sun.position.set(3, 2, 4);
+scene.add(sun);
+const rimLight = new THREE.PointLight(0x4FC3F7, 0.6);
+rimLight.position.set(-2, 0, -2);
+scene.add(rimLight);
+
+let mX=0, mY=0;
+document.addEventListener('mousemove',e=>{mX=(e.clientX/innerWidth)*2-1; mY=(e.clientY/innerHeight)*2-1;});
+function animate(){
+  requestAnimationFrame(animate);
+  globe.rotation.y += 0.0018;
+  globe.rotation.x += (mY*0.15 - globe.rotation.x) * 0.04;
+  globe.rotation.y += (mX*0.25 - globe.rotation.y) * 0.02;
+  ring.rotation.z += 0.003;
+  renderer.render(scene, camera);
+}
+animate();
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+</script>
+
+<script>
+// ── DESTINATIONS DATA ──
+const destinations = [
+  {
+    id:1, name:"Lake Nakuru National Park", region:"Nakuru County", category:"wildlife",
+    desc:"Iconic flamingos paint the lake pink at dawn. Home to rare black & white rhinos, lions, leopards, and buffaloes.",
+    full:"Set inside a soda lake renowned worldwide, Lake Nakuru National Park offers one of Africa's most spectacular wildlife experiences. The famous flamingos gather in their thousands, creating a living pink shoreline. Beyond birds, the park shelters both black and white rhinos, leopards, lions, buffaloes, and the elegant Rothschild giraffe. Stunning viewpoints overlook the entire lake for unforgettable photography.",
+    activities:"Game drives · Birding · Photography · Viewpoint hikes",
+    tags:["Flamingos","Rhinos","Lions","Leopards","Buffaloes","Bird Watching"],
+    images:["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg","photo11.jpg","photo12.jpg"]
+  },
+  {
+    id:2, name:"Hell's Gate National Park", region:"Naivasha County", category:"mountains",
+    desc:"Cycle among zebras, peer into geothermal gorges, and scale towering volcanic cliffs — no vehicle required.",
+    full:"Hell's Gate is Kenya's most adventurous park — one of the very few where you explore entirely on foot or bicycle among free-roaming wildlife. Dramatic basalt columns, Fischer's Tower, and the steaming Ol Njorowa Gorge create a geological wonderland. Zebras, buffaloes, and impalas graze undisturbed as you pedal past. Geothermal activity produces dramatic steam vents throughout.",
+    activities:"Cycling · Hiking · Gorge exploration · Wildlife viewing",
+    tags:["Cycling","Hiking","Gorges","Wildlife","Adventure"],
+    images:["photo13.jpg","photo14.jpg","photo15.jpg","photo16.jpg","photo17.jpg","photo18.jpg","photo19.jpg","photo20.jpg","photo21.jpg","photo22.jpg"]
+  },
+  {
+    id:3, name:"Mount Longonot National Park", region:"Naivasha", category:"mountains",
+    desc:"Trek the rim of an extinct volcano with dramatic views of the Rift Valley and Lake Naivasha shimmering below.",
+    full:"Mount Longonot National Park centres on a spectacular extinct stratovolcano. The trail winds through dense montane vegetation up to the crater rim — a challenging but hugely rewarding 3–4 hour return hike. The crater interior is a secret jungle, and the views from the rim stretch across the entire southern Rift Valley. A true bucket-list experience for active adventurers.",
+    activities:"Volcano hiking · Crater exploration · Birdwatching · Photography",
+    tags:["Volcano Hiking","Crater Exploration","Rift Valley","Nature"],
+    images:["photo23.jpg","photo24.jpg","photo25.jpg","photo26.jpg","photo27.jpg","photo28.jpg","photo29.jpg","photo30.jpg"]
+  },
+  {
+    id:4, name:"Crescent Island Sanctuary", region:"Lake Naivasha", category:"wildlife",
+    desc:"Walk freely among giraffes, zebras, and waterbucks on a private floating island — no barriers, no fences.",
+    full:"Crescent Island is a unique walking safari sanctuary on Lake Naivasha — no predators, no fences, just you and the animals at eye level. A boat transfer across the lake builds the anticipation. Giraffes graze within touching distance, zebras trot past, and hippos bask in the shallows. The island's rim trail offers breathtaking lake views and extraordinary photographic opportunity.",
+    activities:"Walking safaris · Wildlife viewing · Boat transfer · Photography",
+    tags:["Walking Safaris","Wildlife Viewing","Lake","Boat Ride"],
+    images:["photo31.jpg","photo32.jpg","photo33.jpg","photo34.jpg","photo35.jpg","photo36.jpg","photo37.jpg","photo38.jpg","photo39.jpg","photo40.jpg"]
+  },
+  {
+    id:5, name:"Lake Naivasha Boat Safari", region:"Naivasha", category:"lakes",
+    desc:"Glide past hippo pods, spot majestic fish eagles, and watch the sunset paint the lake gold on a private boat cruise.",
+    full:"A boat safari on Lake Naivasha is one of Kenya's purest wildlife experiences. Hippos surface metres from your boat, African fish eagles screech overhead, and kingfishers dart across the papyrus. Sunset cruises are particularly magical, when the entire lake turns a deep amber and the flamingos return to roost. Every cruise is private — just you and your group.",
+    activities:"Boat cruises · Hippo watching · Birding · Sunset viewing",
+    tags:["Boat Safari","Hippos","Sunset","Birding"],
+    images:["photo41.jpg","photo42.jpg","photo43.jpg","photo44.jpg","photo45.jpg","photo46.jpg","photo47.jpg","photo48.jpg","photo49.jpg","photo50.jpg"]
+  },
+  {
+    id:6, name:"Menengai Crater", region:"Nakuru", category:"mountains",
+    desc:"One of Africa's largest calderas — sunrise over the Rift Valley from this sacred volcanic giant is life-changing.",
+    full:"Menengai is a dormant shield volcano and one of the largest calderas in the world. The hike to the crater rim rewards you with a sweeping panorama of the Great Rift Valley, Lake Nakuru, and the sprawling Nakuru town below. At sunrise, mist fills the caldera as eagles circle overhead. A deeply spiritual site with rich Maasai mythology and remarkable geology.",
+    activities:"Crater rim hike · Sunrise photography · Birding · Nature walks",
+    tags:["Hiking","Volcano","Sunrise","Scenic Views"],
+    images:["photo51.jpg","photo52.jpg","photo53.jpg","photo54.jpg","photo55.jpg","photo56.jpg","photo57.jpg","photo58.jpg","photo59.jpg","photo60.jpg"]
+  },
+  {
+    id:7, name:"Kigio Wildlife Conservancy", region:"Nakuru County", category:"wildlife",
+    desc:"A quiet riverine conservancy along the Malewa River, sheltering giraffes, leopards, and a rich variety of birdlife.",
+    full:"Tucked along the Malewa River between Nakuru and Naivasha, Kigio Wildlife Conservancy is one of the region's hidden gems. Acacia woodlands and riverine forest shelter Rothschild giraffes, leopards, hippos, and waterbucks, while the riverbanks attract an impressive variety of birds. Its low visitor numbers make it perfect for a peaceful, intimate game drive or guided nature walk away from the crowds.",
+    activities:"Game drives · Nature walks · Birding · Photography",
+    tags:["Conservancy","Giraffes","Leopards","Birding"],
+    images:["photo61.jpg","photo62.jpg","photo63.jpg","photo64.jpg","photo65.jpg","photo66.jpg","photo67.jpg","photo68.jpg"]
+  },
+  {
+    id:8, name:"Soysambu Conservancy", region:"Lake Elementaita", category:"wildlife",
+    desc:"A vast private conservancy on the shores of Lake Elementaita, home to Rothschild giraffes, zebras, and flamingos.",
+    full:"Soysambu Conservancy spans the wide plains around Lake Elementaita, combining open savannah, acacia bush, and lakeshore habitats. It's one of the best places in the Rift Valley to see large herds of zebra and buffalo alongside Rothschild giraffes, eland, and the occasional cheetah. The lake itself draws thousands of flamingos and pelicans, making it a haven for both game drives and birdwatching.",
+    activities:"Game drives · Bird watching · Nature walks · Photography",
+    tags:["Conservancy","Zebras","Flamingos","Bird Watching"],
+    images:["photo69.jpg","photo70.jpg","photo71.jpg","photo72.jpg","photo73.jpg","photo74.jpg","photo75.jpg","photo76.jpg"]
+  },
+  {
+    id:9, name:"Lake Elementaita", region:"Nakuru County", category:"lakes",
+    desc:"A shimmering soda lake and UNESCO World Heritage Site, famous for flamingo flocks and dramatic Rift Valley backdrops.",
+    full:"Lake Elementaita is a shallow soda lake recognised as part of the Kenya Lake System UNESCO World Heritage Site. Its mineral-rich waters attract huge flocks of lesser and greater flamingos, along with pelicans and other waterbirds. Framed by volcanic hills and golden grasslands, it offers some of the most striking lake panoramas in the Rift Valley, especially at sunrise and sunset.",
+    activities:"Bird watching · Photography · Scenic viewpoints · Picnics",
+    tags:["Soda Lake","Flamingos","UNESCO Site","Scenic Views"],
+    images:["photo77.jpg","photo78.jpg","photo79.jpg","photo80.jpg","photo81.jpg","photo82.jpg"]
+  },
+  {
+    id:10, name:"Lake Solai & Crater Lake", region:"Nakuru County", category:"lakes",
+    desc:"Lesser-known lakes offering tranquil scenery, birdwatching, and a quieter side of the Rift Valley's lake country.",
+    full:"Away from the busier circuits, Lake Solai and Crater Lake reveal a quieter, more secluded side of Nakuru's lake country. Surrounded by farmland, bushland, and volcanic terrain, these lakes attract resident and migratory birds and offer peaceful spots for picnics, photography, and slow exploration. They make an excellent addition to a day combining several of Nakuru's smaller natural attractions.",
+    activities:"Bird watching · Photography · Nature walks · Picnics",
+    tags:["Lake","Birding","Off The Beaten Path","Scenic Views"],
+    images:["photo83.jpg","photo84.jpg","photo85.jpg","photo86.jpg","photo87.jpg","photo88.jpg"]
+  },
+  {
+    id:11, name:"Baboon Cliff & Lion Hill", region:"Lake Nakuru National Park", category:"mountains",
+    desc:"Dramatic clifftop viewpoints inside Lake Nakuru National Park, offering sweeping panoramas of the lake and its wildlife.",
+    full:"Baboon Cliff and Lion Hill are two of the most rewarding viewpoints within Lake Nakuru National Park, perched high above the lake's western shore. From these escarpments, the entire lake unfolds below — flamingo-pink shallows, grazing buffalo, and distant rhinos. Resident troops of baboons are often seen along the cliff edges, while the hills themselves are named for the lions that occasionally rest in their shade.",
+    activities:"Scenic viewpoints · Photography · Game viewing · Picnics",
+    tags:["Viewpoint","Photography","Scenic Views","Wildlife"],
+    images:["photo89.jpg","photo90.jpg","photo91.jpg","photo92.jpg","photo93.jpg","photo94.jpg"]
+  },
+  {
+    id:12, name:"Honeymoon Hill", region:"Lake Nakuru National Park", category:"mountains",
+    desc:"A romantic, panoramic ridge inside Lake Nakuru National Park — one of the park's most picturesque sunset spots.",
+    full:"Honeymoon Hill is a beloved viewpoint within Lake Nakuru National Park, prized for its sweeping views over the lake, surrounding forest, and distant escarpments. The hill's gentle slopes and quiet atmosphere make it a favourite stop for couples and photographers alike, particularly in the soft light of late afternoon when the lake takes on a golden glow.",
+    activities:"Scenic viewpoints · Photography · Picnics · Sunset viewing",
+    tags:["Viewpoint","Romantic","Sunset","Scenic Views"],
+    images:["photo95.jpg","photo96.jpg","photo97.jpg","photo98.jpg"]
+  },
+  {
+    id:13, name:"Ol Njorowa Gorge & Fischer's Tower", region:"Hell's Gate National Park", category:"mountains",
+    desc:"Walk through towering volcanic walls and past the iconic basalt column of Fischer's Tower inside Hell's Gate.",
+    full:"Ol Njorowa Gorge cuts deep through Hell's Gate National Park, its sheer rock walls rising on either side as you walk along the narrow gorge floor — famously used as inspiration for scenes in The Lion King. Nearby, the striking volcanic plug known as Fischer's Tower stands alone on the plains, a favourite spot for rock climbers and photographers, with raptors often seen circling its summit.",
+    activities:"Gorge hiking · Rock climbing · Photography · Geological tours",
+    tags:["Gorge","Rock Climbing","Geology","Photography"],
+    images:["photo99.jpg","photo100.jpg","photo101.jpg","photo102.jpg","photo103.jpg","photo104.jpg"]
+  },
+  {
+    id:14, name:"Makalia Falls", region:"Lake Nakuru National Park", category:"lakes",
+    desc:"A serene seasonal waterfall tucked in the southern forests of Lake Nakuru National Park — a peaceful picnic stop.",
+    full:"Makalia Falls sits in the southern section of Lake Nakuru National Park, where the Makalia River tumbles over a rocky ledge into a shaded pool below. Surrounded by acacia and euphorbia forest, it's a tranquil spot often visited as part of a longer game drive, offering a cool, green contrast to the open lake plains and a chance to stretch your legs on a short forest walk.",
+    activities:"Nature walks · Photography · Picnics · Birding",
+    tags:["Waterfall","Forest","Picnic Spot","Nature Walk"],
+    images:["photo105.jpg","photo106.jpg","photo107.jpg","photo108.jpg"]
+  },
+  {
+    id:15, name:"Mau, Bahati, Eburru, Dundori & Kiptunga Forests", region:"Nakuru County", category:"lakes",
+    desc:"A network of highland forests around Nakuru offering cool air, indigenous trees, birdlife, and gentle forest trails.",
+    full:"Ringing the Nakuru highlands, the Mau, Bahati, Eburru, Dundori, and Kiptunga forests form a network of indigenous and plantation woodland rich in birdlife, butterflies, and forest flora. Each has its own character — from the vast Mau Forest's biodiversity to Eburru's geothermal-warmed slopes and Kiptunga's towering cedar and bamboo stands. Together they offer cool, shaded walks and a refreshing change of scenery from the open Rift Valley floor.",
+    activities:"Forest walks · Bird watching · Nature photography · Cycling",
+    tags:["Forest","Bird Watching","Nature Walk","Highlands"],
+    images:["photo109.jpg","photo110.jpg","photo111.jpg","photo112.jpg","photo113.jpg","photo114.jpg"]
+  },
+  {
+    id:16, name:"Hyrax Hill Prehistoric Site", region:"Nakuru Town", category:"heritage",
+    desc:"An archaeological site revealing Stone Age settlements and tools dating back thousands of years.",
+    full:"Hyrax Hill Prehistoric Site sits on a rocky outcrop on the outskirts of Nakuru town, where excavations have uncovered evidence of human settlement spanning the Neolithic period to more recent Iron Age communities. Visitors can walk among ancient burial sites, hut foundations, and tool fragments while learning about the long history of human life in the Rift Valley, all set against panoramic views of the surrounding plains.",
+    activities:"Archaeological tours · Historical site tours · Educational tours · Photography",
+    tags:["Archaeology","Stone Age","Ancient Settlements","History"],
+    images:["photo115.jpg","photo116.jpg","photo117.jpg","photo118.jpg"]
+  },
+  {
+    id:17, name:"Lord Egerton Castle", region:"Nakuru", category:"heritage",
+    desc:"A grand colonial-era mansion with manicured gardens, ornate architecture, and a fascinating, eccentric history.",
+    full:"Lord Egerton Castle is a striking English-style mansion built in the early 20th century, complete with turrets, arched windows, and dozens of rooms reflecting its colonial-era grandeur. Surrounded by landscaped gardens, the castle offers a glimpse into the lifestyle of early European settlers in Kenya, along with the curious story of the eccentric lord who built it. A guided tour through its halls and grounds makes for a fascinating cultural stop.",
+    activities:"Historic mansion tours · Garden walks · Photography · Cultural tours",
+    tags:["Historic Mansion","Colonial Architecture","Gardens","Heritage"],
+    images:["photo119.jpg","photo120.jpg","photo121.jpg","photo122.jpg","photo123.jpg"]
+  },
+  {
+    id:18, name:"Kariandusi Prehistoric Site", region:"Nakuru County", category:"heritage",
+    desc:"One of the earliest known Acheulean tool sites, offering deep insight into early human history in the Rift Valley.",
+    full:"Kariandusi Prehistoric Site is one of the most significant early human history locations in East Africa, where excavations have revealed Acheulean hand-axes and other stone tools believed to be hundreds of thousands of years old. A small site museum displays artefacts and explains the geological processes that preserved them, making it a rewarding stop for anyone curious about the deep roots of human history in the region.",
+    activities:"Archaeological tours · Educational tours · Museum visits · Photography",
+    tags:["Early Human History","Archaeology","Museum","Education"],
+    images:["photo124.jpg","photo125.jpg","photo126.jpg","photo127.jpg"]
+  },
+  {
+    id:19, name:"Subukia Shrine", region:"Subukia, Nakuru County", category:"heritage",
+    desc:"A peaceful pilgrimage site set on the edge of the Rift Valley escarpment, significant for both faith and scenery.",
+    full:"Perched on the rim of the Rift Valley escarpment, the Subukia Shrine is a place of pilgrimage and quiet reflection, drawing visitors for its spiritual significance as much as its sweeping valley views. The surrounding gardens and viewpoints offer a tranquil setting, while the dramatic drop into the valley below provides one of the most memorable panoramas in the region.",
+    activities:"Pilgrimage visits · Scenic viewpoints · Photography · Cultural tours",
+    tags:["Pilgrimage","Cultural Significance","Scenic Views","Heritage"],
+    images:["photo128.jpg","photo129.jpg","photo130.jpg","photo131.jpg"]
+  },
+  {
+    id:20, name:"Nakuru Railway Heritage Sites", region:"Nakuru Town", category:"heritage",
+    desc:"Historic railway buildings and relics tracing the story of the early colonial railway and the growth of Nakuru town.",
+    full:"Nakuru's railway heritage sites trace back to the early days of the Uganda Railway, when the town grew from a small siding into a major Rift Valley hub. Period buildings, old locomotives, and railway relics offer a window into the colonial-era settlement history of the region, telling the story of how the railway shaped trade, migration, and the development of Nakuru itself.",
+    activities:"Historical site tours · Photography · Cultural tours · Educational tours",
+    tags:["Railway History","Colonial History","Heritage","Town Tour"],
+    images:["photo132.jpg","photo133.jpg","photo134.jpg","photo135.jpg"]
+  },
+  {
+    id:21, name:"Rift Valley Historical Viewpoints", region:"Nakuru County", category:"heritage",
+    desc:"Sweeping escarpment viewpoints that tell the geological story of the Great Rift Valley's formation.",
+    full:"Scattered along the edges of the Rift Valley escarpment, these historical viewpoints offer not only breathtaking panoramas but also a window into millions of years of geological history. Information points and guided commentary explain how tectonic forces shaped the valley, its volcanoes, and its chain of lakes — turning a scenic stop into a memorable lesson in the formation of one of the planet's great geological features.",
+    activities:"Scenic viewpoints · Geological tours · Photography · Educational tours",
+    tags:["Geology","Rift Valley","Viewpoint","Education"],
+    images:["photo136.jpg","photo137.jpg","photo138.jpg","photo139.jpg"]
+  },
+  {
+    id:22, name:"Olkaria Geothermal Spa & Fields", region:"Naivasha", category:"mountains",
+    desc:"Natural hot springs, steaming fields, and dramatic steam vents showcasing the Rift Valley's geothermal power.",
+    full:"The Olkaria area is one of the most geologically active parts of the Rift Valley, where natural steam vents rise from the earth across open fields and a geothermal spa offers a chance to relax in naturally heated pools. Combined with the steam vents found at Hell's Gate and the dormant giants of Mount Longonot and Menengai, the area gives visitors a vivid sense of the volcanic forces still simmering beneath Kenya's surface.",
+    activities:"Geothermal tours · Spa visits · Geological tours · Photography",
+    tags:["Geothermal","Hot Springs","Volcano","Geology"],
+    images:["photo140.jpg","photo141.jpg","photo142.jpg","photo143.jpg","photo144.jpg"]
+  }
+];
+
+// ── BUILD DESTINATION CARDS ──
+const destGrid = document.getElementById('destGrid');
+function renderDestCards(filter) {
+  destGrid.innerHTML = '';
+  const list = filter === 'all' ? destinations : destinations.filter(d => d.category === filter);
+  list.forEach((d,i) => {
+    const card = document.createElement('div');
+    card.className = `dest-card reveal visible${i%3===0?'':i%3===1?' reveal-delay-1':' reveal-delay-2'}`;
+    card.innerHTML = `
+      <div class="dest-img">
+        <img src="${d.images[0]}" alt="${d.name}" loading="lazy">
+        <div class="dest-img-count"><i class="fas fa-images"></i>${d.images.length} photos</div>
+      </div>
+      <div class="dest-body">
+        <div class="dest-region"><i class="fas fa-map-marker-alt" style="margin-right:.3rem"></i>${d.region}</div>
+        <div class="dest-name">${d.name}</div>
+        <div class="dest-desc">${d.desc}</div>
+        <div class="dest-tags">${d.tags.map(t=>`<span class="dest-tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="dest-arrow"><i class="fas fa-arrow-right"></i></div>`;
+    card.onclick = () => openModal(d.id);
+    destGrid.appendChild(card);
+  });
+}
+renderDestCards('all');
+
+// ── DESTINATION FILTER BUTTONS ──
+document.querySelectorAll('.dest-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.dest-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDestCards(btn.dataset.cat);
+  });
+});
+
+// ── BUILD AUTO GALLERY ──
+function buildSlider() {
+  const track = document.getElementById('sliderTrack');
+  let allSlides = [];
+  destinations.forEach(d => d.images.forEach(img => allSlides.push({img, name:d.name})));
+  // shuffle with no consecutive same destination
+  for(let i=allSlides.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[allSlides[i],allSlides[j]]=[allSlides[j],allSlides[i]];}
+  for(let i=0;i<allSlides.length-1;i++){
+    if(allSlides[i].name===allSlides[i+1].name){
+      const si=(i+2)%allSlides.length;
+      [allSlides[i+1],allSlides[si]]=[allSlides[si],allSlides[i+1]];
+    }
+  }
+  const doubled=[...allSlides,...allSlides];
+  track.innerHTML='';
+  doubled.forEach(s=>{
+    const el=document.createElement('div');
+    el.className='slide-card';
+    el.innerHTML=`<img src="${s.img}" alt="${s.name}" loading="lazy"><div class="slide-label">${s.name}</div>`;
+    track.appendChild(el);
+  });
+}
+buildSlider();
+
+// pause/play
+const pauseBtn = document.getElementById('pauseBtn');
+const sliderTrack = document.getElementById('sliderTrack');
+let sliderPaused = false;
+pauseBtn.onclick = () => {
+  sliderPaused = !sliderPaused;
+  sliderTrack.style.animationPlayState = sliderPaused ? 'paused' : 'running';
+  pauseBtn.innerHTML = sliderPaused ? '<i class="fas fa-play"></i> Resume' : '<i class="fas fa-pause"></i> Pause';
+};
+
+// ── MODAL ──
+function openModal(id) {
+  const d = destinations.find(x=>x.id===id);
+  if(!d) return;
+  document.getElementById('mRegion').innerHTML=`<i class="fas fa-map-marker-alt"></i> ${d.region}`;
+  document.getElementById('mTitle').textContent=d.name;
+  document.getElementById('mDesc').textContent=d.full;
+  document.getElementById('mActivities').innerHTML=`<i class="fas fa-route" style="color:var(--sky);margin-top:.1rem;flex-shrink:0;"></i><div><strong style="color:#fff;">Activities:</strong> ${d.activities}</div>`;
+  const gal = document.getElementById('mGallery');
+  gal.innerHTML='';
+  d.images.forEach(img=>{
+    const el=document.createElement('img');
+    el.src=img; el.className='modal-img'; el.loading='lazy';
+    el.onclick=()=>openLightbox(img);
+    gal.appendChild(el);
+  });
+  document.getElementById('mWA').href=`https://wa.me/254794746802?text=${encodeURIComponent(d.name)}%20-%20Hello%20Panda!%20I%20found%20you%20on%20your%20website%20and%20I'm%20interested%20in%20booking%20a%20private%20safari%20tour.%20I'd%20love%20to%20explore%20the%20beautiful%20destinations%20around%20Nakuru%20and%20Naivasha.%20Please%20help%20me%20plan%20my%20perfect%20itinerary.%20Looking%20forward%20to%20an%20amazing%20experience%20with%20you.%20Thank%20you!booking`;
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+document.getElementById('modalCloseBtn').onclick = closeModal;
+document.getElementById('modalOverlay').onclick = e=>{if(e.target===document.getElementById('modalOverlay'))closeModal();};
+function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';}
+
+// lightbox
+function openLightbox(src){
+  document.getElementById('lbImg').src=src;
+  document.getElementById('lightbox').classList.add('active');
+}
+document.getElementById('lbClose').onclick=()=>document.getElementById('lightbox').classList.remove('active');
+document.getElementById('lightbox').onclick=e=>{if(e.target===document.getElementById('lightbox'))document.getElementById('lightbox').classList.remove('active');};
+
+// ── HAMBURGER ──
+document.getElementById('hamburger').onclick=()=>document.getElementById('mobileMenu').classList.add('open');
+document.getElementById('mobClose').onclick=()=>document.getElementById('mobileMenu').classList.remove('open');
+document.querySelectorAll('.mob-link').forEach(l=>l.addEventListener('click',()=>document.getElementById('mobileMenu').classList.remove('open')));
+
+// ── REVEAL ON SCROLL ──
+const revealEls=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.12});
+revealEls.forEach(el=>observer.observe(el));
+
+// ── STAT COUNTER ──
+const statNums=document.querySelectorAll('.stat-num[data-count]');
+const countObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target; const target=+el.dataset.count; const suffix=target===100?'+':'';
+      let current=0; const step=Math.ceil(target/60);
+      const timer=setInterval(()=>{current=Math.min(current+step,target); el.textContent=current.toLocaleString()+suffix; if(current>=target)clearInterval(timer);},25);
+      countObs.unobserve(el);
+    }
+  });
+},{threshold:.5});
+statNums.forEach(el=>countObs.observe(el));
+
+// ── NAV SCROLL + PARALLAX (merged) ──
+const nav = document.getElementById('nav');
+const heroBg = document.getElementById('heroBg');
+const heroWatermark = document.getElementById('heroWatermark');
+window.addEventListener('scroll', () => {
+  const sy = window.scrollY;
+  nav.classList.toggle('scrolled', sy > 60);
+  if (heroBg) heroBg.style.transform = `translateY(${sy * 0.35}px)`;
+  if (heroWatermark) heroWatermark.style.transform = `translateX(-50%) translateY(${sy * 0.2}px)`;
+  document.querySelectorAll('.hero-float').forEach((el, i) => {
+    const dir = i % 2 === 0 ? 1 : -1;
+    el.style.transform = `translateY(${sy * 0.08 * dir * (i * 0.3 + 0.5)}px)`;
+  });
+}, { passive: true });
+// ── TYPED ANIMATION (hero sub text cycling) ──
+const typedPhrases = [
+  'flamingo lakes, volcanic craters & untouched savannahs',
+  'golden sunrises at Menengai Crater',
+  'hippos on Lake Naivasha at sunset',
+  'cycling among zebras at Hell\'s Gate',
+];
+const heroSub = document.querySelector('.hero-sub');
+if (heroSub) {
+  let pIdx = 0, cIdx = 0, deleting = false;
+  const baseText = 'Private guided safaris through ';
+  heroSub.innerHTML = baseText + '<span class="hero-typed"></span> — crafted by a local soul who knows every trail.';
+  const typedSpan = heroSub.querySelector('.hero-typed');
+  function typeLoop() {
+    const phrase = typedPhrases[pIdx];
+    if (!deleting) {
+      typedSpan.textContent = phrase.slice(0, cIdx + 1);
+      cIdx++;
+      if (cIdx === phrase.length) { deleting = true; setTimeout(typeLoop, 2200); return; }
+      setTimeout(typeLoop, 55);
+    } else {
+      typedSpan.textContent = phrase.slice(0, cIdx - 1);
+      cIdx--;
+      if (cIdx === 0) { deleting = false; pIdx = (pIdx + 1) % typedPhrases.length; }
+      setTimeout(typeLoop, 32);
+    }
+  }
+  setTimeout(typeLoop, 1800);
+}
+
+// ── MICRO-INTERACTIONS: 3D tilt on HF cards ──
+document.querySelectorAll('.hf-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `translateY(-8px) scale(1.02) rotateX(${-y * 10}deg) rotateY(${x * 10}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ── LOADER ──
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('done'),1900);});
+
+</script>
+</body>
+</html>
